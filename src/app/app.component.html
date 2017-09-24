@@ -1,0 +1,10 @@
+<div>
+  <h1>{{title}}</h1>
+<svg width="1024" height="1024">
+  <use xlink:href="/assets/E1M1.svg#map"></use>
+  <svg:circle r="5" [attr.cx]="players[0].position.x" [attr.cy]="players[0].position.y" stroke="black" fill="red" />
+  <svg:circle r="5" [attr.cx]="players[1].position.x" [attr.cy]="players[1].position.y" stroke="black" fill="grey" />
+  <svg:circle r="5" [attr.cx]="players[2].position.x" [attr.cy]="players[2].position.y" stroke="black" fill="green" />
+  <svg:circle r="5" [attr.cx]="players[3].position.x" [attr.cy]="players[3].position.y" stroke="black" fill="blue" />
+</svg>
+</div>
