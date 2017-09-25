@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {PlayerService} from "./player.service";
 import {DoorService} from "./door.service";
+import {WorldObjectsService} from "./world-objects.service";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {DoorService} from "./door.service";
   ],
   providers: [
     PlayerService,
-    DoorService
+    DoorService,
+    WorldObjectsService
   ],
   bootstrap: [AppComponent]
 })

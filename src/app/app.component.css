@@ -1,4 +1,37 @@
 .door{
-  stroke:rgb(255,0,0);
-  stroke-width:2
+  stroke: red;
+  stroke-width:2;
 }
+.obj2015{
+  /* spirit armor */
+  fill: blue;
+}
+.obj2011 {
+  /* stimpak */
+  fill: green;
+}
+.obj2012 {
+  /* medikit */
+  fill: white;
+  stroke: red;
+  stroke-width: 1;
+}
+.obj3001 {
+  /* imp */
+  fill: brown;
+  stroke: red;
+  stroke-width: 2;
+}
+.obj2007 {
+  /* ammo */
+  fill: yellow;
+}
+.obj2014 {
+  /* health potion 1% */
+  fill: white;
+  stroke: red;
+  stroke-width: 1;
+  height: 5;
+  width: 5;
+}
+

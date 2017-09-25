@@ -4,7 +4,10 @@ import {Player} from "./player";
 import {Observable} from "rxjs/Rx";
 import {Door} from "./door";
 import {DoorService} from "./door.service";
+import {WorldObject} from "./world-object";
+import {WorldObjectsService} from "./world-objects.service";
 import {Point} from "./point";
+import {Position} from "./position";
 
 @Component({
   selector: 'app-root',
@@ -13,9 +16,9 @@ import {Point} from "./point";
 })
 export class AppComponent implements OnInit {
   title = 'Doom Map Viewer';
-  // better way to do this??
-  players: Player[] = [new Player(), new Player(), new Player(), new Player()];
+  players: Player[];
   doors: Door[];
+  worldObjects: WorldObject[];
 
   ngOnInit(): void {
     const timer = Observable.timer(2000, 1000);
@@ -24,6 +27,7 @@ export class AppComponent implements OnInit {
   getAllObjects(): void {
     this.getPlayers();
     this.getDoors();
+    this.getWorldObjects();
   }
   getPlayers(): void {
     this.playersService.getPlayers(this.setPlayers.bind(this));
@@ -31,23 +35,30 @@ export class AppComponent implements OnInit {
   getDoors(): void {
     this.doorService.getDoors(this.setDoors.bind(this));
   }
+  getWorldObjects(): void {
+    this.worldObjectsService.getWorldObjects(this.setWorldObjects.bind(this));
+  }
   setPlayers(players: Player[]): void {
-    // These values only work for E1M1
-    let i = 0;
-    players.forEach(function (player) {
-      this.players[i].position.x = (player.position.x + 768) *  0.223;
-      this.players[i].position.y = (2826 - (player.position.y + 4864)) * 0.223 ;
-      i++;
-    }, this);
+    this.players = players;
+    for (const player of this.players) {
+      player.position = new Position(player.position);
+    }
   }
   setDoors(doors: Door[]): void {
     this.doors = doors;
-    // stupid way to call constructor for Point - somehow not called during cast from json
-    this.doors.forEach(function(door){
-      door.line.v1 = new Point(door.line.v1.x, door.line.v1.y);
-      door.line.v2 = new Point(door.line.v2.x, door.line.v2.y);
-    });
+    // would be great to do this during json -> object cast
+    for (const door of this.doors) {
+      door.line.v1 = new Point(door.line.v1);
+      door.line.v2 = new Point(door.line.v2);
+    }
+  }
+  setWorldObjects(worldObjects: WorldObject[]): void {
+    this.worldObjects = worldObjects;
+    for (const obj of this.worldObjects) {
+      obj.position = new Position(obj.position);
+    }
   }
   constructor ( private playersService: PlayerService,
-                private doorService: DoorService) {}
+                private doorService: DoorService,
+                private worldObjectsService: WorldObjectsService) {}
 }

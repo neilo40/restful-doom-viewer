@@ -4,7 +4,7 @@ import {Position} from "./position";
 
 export class Player {
 id: number;
-position: Position = new Position();
+position: Position;
 angle: number;
 height: number;
 health: number;
