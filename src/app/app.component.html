@@ -1,4 +1,4 @@
-<div>
+<div xmlns:svg="http://www.w3.org/1999/html">
   <h1>{{title}}</h1>
 <svg width="1024" height="1024">
   <use xlink:href="/assets/E1M1.svg#map"></use>
@@ -6,5 +6,10 @@
   <svg:circle r="5" [attr.cx]="players[1].position.x" [attr.cy]="players[1].position.y" stroke="black" fill="grey" />
   <svg:circle r="5" [attr.cx]="players[2].position.x" [attr.cy]="players[2].position.y" stroke="black" fill="green" />
   <svg:circle r="5" [attr.cx]="players[3].position.x" [attr.cy]="players[3].position.y" stroke="black" fill="blue" />
+  <svg:line class="door" *ngFor="let door of doors"
+              [attr.x1]="door.line.v1.x"
+              [attr.y1]="door.line.v1.y"
+              [attr.x2]="door.line.v2.x"
+              [attr.y2]="door.line.v2.y"/>
 </svg>
 </div>
