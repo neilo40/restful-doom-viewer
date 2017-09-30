@@ -3,6 +3,7 @@
 import struct
 import re
 import os
+import json
 
 class Wad(object):
     """Encapsulates the data found inside a WAD file"""
@@ -123,7 +124,11 @@ if __name__ == "__main__":
         output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "svg", os.path.basename(sys.argv[1]))
         if not os.path.exists(output_path):
             os.makedirs(output_path)
+        level_metadata = {}
         for level in wad.levels:
             level.save_svg(output_path)
+            level_metadata[level.name] = {"ll": level.lower_left, "ur": level.upper_right}
+        with open(os.path.join(output_path, "metadata.json"), 'w') as fh:
+            json.dump(level_metadata, fh, indent=2)
     else:
         print('You need to pass a WAD file as the only argument')
