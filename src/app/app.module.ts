@@ -6,6 +6,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {PlayerService} from "./player.service";
 import {DoorService} from "./door.service";
 import {WorldObjectsService} from "./world-objects.service";
+import {WorldService} from "./world.service";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -13,12 +15,14 @@ import {WorldObjectsService} from "./world-objects.service";
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     PlayerService,
     DoorService,
-    WorldObjectsService
+    WorldObjectsService,
+    WorldService
   ],
   bootstrap: [AppComponent]
 })

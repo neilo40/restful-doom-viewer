@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChange} from '@angular/core';
 import {PlayerService} from "./player.service";
 import {Player} from "./player";
 import {Observable} from "rxjs/Rx";
@@ -8,6 +8,8 @@ import {WorldObject} from "./world-object";
 import {WorldObjectsService} from "./world-objects.service";
 import {Point} from "./point";
 import {Position} from "./position";
+import {WorldService} from "./world.service";
+import {World} from "./world";
 
 @Component({
   selector: 'app-root',
@@ -19,12 +21,14 @@ export class AppComponent implements OnInit {
   players: Player[];
   doors: Door[];
   worldObjects: WorldObject[];
+  world: World;
 
   ngOnInit(): void {
     const timer = Observable.timer(2000, 1000);
     timer.subscribe(t => this.getAllObjects());
   }
   getAllObjects(): void {
+    this.getWorld();
     this.getPlayers();
     this.getDoors();
     this.getWorldObjects();
@@ -37,6 +41,9 @@ export class AppComponent implements OnInit {
   }
   getWorldObjects(): void {
     this.worldObjectsService.getWorldObjects(this.setWorldObjects.bind(this));
+  }
+  getWorld(): void {
+    this.worldService.getWorld(this.setWorld.bind(this));
   }
   setPlayers(players: Player[]): void {
     this.players = players;
@@ -58,7 +65,11 @@ export class AppComponent implements OnInit {
       obj.position = new Position(obj.position);
     }
   }
+  setWorld(world: World): void {
+    this.world = new World(world.episode, world.map, world.lights);
+  }
   constructor ( private playersService: PlayerService,
                 private doorService: DoorService,
-                private worldObjectsService: WorldObjectsService) {}
+                private worldObjectsService: WorldObjectsService,
+                private worldService: WorldService) {}
 }

@@ -1,7 +1,10 @@
 <div xmlns:svg="http://www.w3.org/1999/html">
   <h1>{{title}}</h1>
+  <div>
+    Episode {{world.episode}}, Map {{world.map}}
+  </div>
 <svg width="1024" height="1024">
-  <use xlink:href="/assets/E1M1.svg#map"></use>
+  <svg:use [attr.xlink:href]="world.svgFilename"></svg:use>
   <svg:circle *ngFor="let player of players" r="5" [attr.cx]="player.position.x"
               [attr.cy]="player.position.y" stroke="black" fill="red" />
   <svg:line class="door" *ngFor="let door of doors"
