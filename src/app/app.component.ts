@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PlayerService} from "./player.service";
 import {Player} from "./player";
 import {Observable} from "rxjs/Rx";
@@ -10,6 +10,7 @@ import {Point} from "./point";
 import {Position} from "./position";
 import {WorldService} from "./world.service";
 import {World} from "./world";
+import {getAllDebugNodes} from "@angular/core/src/debug/debug_node";
 
 @Component({
   selector: 'app-root',
@@ -24,8 +25,8 @@ export class AppComponent implements OnInit {
   world: World;
 
   ngOnInit(): void {
-    const timer = Observable.timer(2000, 1000);
-    timer.subscribe(t => this.getAllObjects());
+    this.worldService.getMapMetadata();
+    this.getAllObjects();
   }
   getAllObjects(): void {
     this.getWorld();
@@ -49,24 +50,36 @@ export class AppComponent implements OnInit {
     this.players = players;
     for (const player of this.players) {
       player.position = new Position(player.position);
+      player.position.mapGameCoordToSvg(this.worldService.map_metadata[this.world.mapName]);
     }
+    const timer = Observable.timer(1000);
+    timer.subscribe(t => this.getPlayers());
   }
   setDoors(doors: Door[]): void {
     this.doors = doors;
     // would be great to do this during json -> object cast
     for (const door of this.doors) {
       door.line.v1 = new Point(door.line.v1);
+      door.line.v1.mapGameCoordToSvg(this.worldService.map_metadata[this.world.mapName]);
       door.line.v2 = new Point(door.line.v2);
+      door.line.v2.mapGameCoordToSvg(this.worldService.map_metadata[this.world.mapName]);
     }
+    const timer = Observable.timer(1000);
+    timer.subscribe(t => this.getDoors());
   }
   setWorldObjects(worldObjects: WorldObject[]): void {
     this.worldObjects = worldObjects;
     for (const obj of this.worldObjects) {
       obj.position = new Position(obj.position);
+      obj.position.mapGameCoordToSvg(this.worldService.map_metadata[this.world.mapName]);
     }
+    const timer = Observable.timer(1000);
+    timer.subscribe(t => this.getWorldObjects());
   }
   setWorld(world: World): void {
     this.world = new World(world.episode, world.map, world.lights);
+    const timer = Observable.timer(1000);
+    timer.subscribe(t => this.getWorld());
   }
   constructor ( private playersService: PlayerService,
                 private doorService: DoorService,
