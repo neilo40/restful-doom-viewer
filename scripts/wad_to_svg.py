@@ -85,7 +85,7 @@ class Level(object):
             canvas_size = (int(1024*(float(view_box_size[0])/view_box_size[1])), 1024)
 
         svg_filename = os.path.join(output_path, self.name+'.svg')
-        dwg = svgwrite.Drawing(svg_filename, profile='tiny', size=canvas_size , viewBox=('0 0 %d %d' % view_box_size))
+        dwg = svgwrite.Drawing(svg_filename, profile='tiny', size=canvas_size , viewBox=('0 0 %d %d' % view_box_size), id="map")
         for line in self.lines:
             _a = self.normalize(self.vertices[line.a])
             a = (_a[0], view_box_size[1] - _a[1])
@@ -120,7 +120,7 @@ if __name__ == "__main__":
 
     if len(sys.argv) > 1:
         wad = Wad(sys.argv[1])
-        output_path = os.path.join("svg", os.path.basename(sys.argv[1]))
+        output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "svg", os.path.basename(sys.argv[1]))
         if not os.path.exists(output_path):
             os.makedirs(output_path)
         for level in wad.levels:
